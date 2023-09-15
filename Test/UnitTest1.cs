@@ -398,6 +398,24 @@ namespace Test
 
             Assert.AreNotSame(r2, r2.Add(r1), "Add() should returns new item");
         }
+
+        public static RomanNumber Sum(RomanNumber[] arr_r)
+        {
+            if (arr_r is null)
+            {
+                throw new ArgumentNullException(
+                    String.Format(
+                    nameof(arr_r)));
+            }
+            if (arr_r.Length == 1)
+            {
+                throw new ArgumentException("Invalid sum: " + arr_r.ToString());
+            }
+
+
+
+            return arr_r.Aggregate((r1, r2) => r1.Add(r2));
+        }
     }
 }
 
