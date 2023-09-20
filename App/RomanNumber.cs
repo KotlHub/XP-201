@@ -196,5 +196,38 @@ namespace App
 
             return arr_r.Aggregate((r1, r2) => r1.Add(r2));
         }
+
+        public static RomanNumber Eval(string input)
+
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                throw new ArgumentException("Input is null or empty.");
+            }
+
+            char operation = input.Contains('+') ? '+' : '-';
+
+            string[] parts = input.Split(operation);
+            if (parts.Length != 2)
+            {
+                throw new ArgumentException("Invalid format.");
+            }
+
+            Parse(parts[0].Trim());
+            Parse(parts[1].Trim());
+
+            RomanNumber r1 = RomanNumber.Parse(parts[0].Trim());
+            RomanNumber r2 = RomanNumber.Parse(parts[1].Trim());
+
+            if (operation == '+')
+            {
+                return r1.Add(r2);
+            }
+
+            else
+            {
+                return new RomanNumber(r1.Value - r2.Value);
+            }
+        }
     }
 }

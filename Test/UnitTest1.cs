@@ -398,7 +398,7 @@ namespace Test
 
             Assert.AreNotSame(r2, r2.Add(r1), "Add() should returns new item");
         }
-
+        [TestMethod]
         public void TestSum2()
         {
             RomanNumber r1 = new(10);
@@ -413,6 +413,54 @@ namespace Test
                 "Sum2(null!) Argument null exception");
             String expextedFragment = "Invalid Sum() invocation with NULL argument";
             Assert.IsTrue(ex.Message.Contains(expextedFragment), $"ex message contains {expextedFragment}");
+            var emptyArr = Array.Empty<RomanNumber>();
+            Assert.AreEqual(0, RomanNumber.Sum2(emptyArr).Value, "Sum2(empty) == 0");
+            Assert.AreEqual(0, RomanNumber.Sum2().Value, "Sum2() == 0");
+            Assert.AreEqual(10, RomanNumber.Sum2(r1).Value, "Sum2(10) == 10");
+
+        }
+        [TestMethod]
+        public void TestEvalNotNull()
+        {
+
+            Assert.IsNotNull(RomanNumber.Eval("IV + XL"));
+        }
+
+        [TestMethod]
+
+        public void TestEvalType()
+        {
+            Assert.IsInstanceOfType(RomanNumber.Eval("IV + XL"), typeof(RomanNumber));
+        }
+
+        [TestMethod]
+
+        public void TestEvalAlgo()
+        {
+            RomanNumber result = RomanNumber.Eval("IV + XL");
+            Assert.AreEqual("XLIV", result.ToString());
+
+            Assert.AreEqual("IV", RomanNumber.Eval("XL - IV").ToString());
+        }
+        [TestMethod]
+        public void TestAlgoRand()
+        {
+            Random rand = new Random();
+            for(int i = 0; i < 100; i++)
+            {
+                RomanNumber r1 = new RomanNumber(rand.Next(-3000, 3000));
+                RomanNumber r2 = new RomanNumber(rand.Next(-3000, 3000));
+
+                RomanNumber expectedSum = r1.Add(r2);
+                RomanNumber currSum = RomanNumber.Eval($"{r1.ToString()} + {r2.ToString()}");
+
+                Assert.AreEqual(expectedSum.ToString(), currSum.ToString());
+
+                RomanNumber expectedDifference = new RomanNumber(r1.Value - r2.Value);
+                RomanNumber actualDifference = RomanNumber.Eval($"{r1.ToString()} - {r2.ToString()}");
+
+                Assert.AreEqual(expectedDifference.ToString(), actualDifference.ToString());
+            }
         }
     }
 }
